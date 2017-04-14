@@ -1,0 +1,43 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: "scala"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+ext.scala_version = "2.12.1"
+
+sourceCompatibility = 1.8
+
+configurations.all {
+	resolutionStrategy.force "org.scala-lang:scala-library:$scala_version"
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+	compile "org.springframework.boot:spring-boot-starter-webflux"
+	compile "com.fasterxml.jackson.module:jackson-module-scala_2.12:2.9.0.pr2"
+	compile "javax.inject:javax.inject:1"
+
+	compile "org.springframework.boot:spring-boot-starter-jdbc"
+	compile "com.h2database:h2"
+
+	compile "com.typesafe.slick:slick_2.12:3.2.0"
+	compile "org.scala-lang:scala-library:$scala_version"
+}
